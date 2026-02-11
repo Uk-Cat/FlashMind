@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VividMind Login</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -22,7 +24,6 @@
     <script src="GoogleLogin.js"></script>
     
     <script>
-        // Show/hide logout button based on login state
         window.addEventListener('load', function() {
             const savedUser = localStorage.getItem('vividmind_user');
             if (savedUser) {
