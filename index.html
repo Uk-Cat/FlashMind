@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>VividMind | Login</title>
-        <script src="https://accounts.google.com/gsi/client" async defer></script>
-    </head>
-    <body>
-        <h1>Welcome to VividMind</h1>
-        <div id="g_id_onload"
+<head>
+    <meta charset="UTF-8">
+    <title>VividMind Login</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <h1>VividMind</h1>
+    <p>Please sign in:</p>
+    
+    <div id="g_id_onload"
          data-client_id="305956197355-8eveggmhbv8q2bmvss31rtjtmabim8g3.apps.googleusercontent.com"
          data-callback="handleCredentialResponse">
     </div>
     <div class="g_id_signin" data-type="standard"></div>
+
     <script>
-        // 3. What happens after they log in
         function handleCredentialResponse(response) {
-            // This 'credential' is a JWT token containing the user's name/email
-            console.log("Encoded JWT ID token: " + response.credential);
+            console.log("JWT Token: " + response.credential);
             
-            // For now, let's just show an alert!
-            alert("You logged in! Check the console (F12) for your data.");
+            const userObject = parseJwt(response.credential);
+            console.log("User data:", userObject);
+            
+            alert("Logged in!\nName: " + userObject.name + "\nEmail: " + userObject.email);
+        }
+
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
         }
     </script>
-    </body>
+</body>
 </html>
