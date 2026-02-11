@@ -7,10 +7,13 @@
     <link rel="stylesheet" href="../style.css">
     <script>
         // Check if user is logged in
-        const savedUser = localStorage.getItem('vividmind_user');
-        
-        if (!savedUser) {
-            // Not logged in, redirect to login page
+        try {
+            const savedUser = localStorage.getItem('vividmind_user');
+            if (!savedUser || savedUser === 'undefined' || savedUser === 'null') {
+                // Not logged in, redirect to login page
+                window.location.href = '../Login/Login.html';
+            }
+        } catch (e) {
             window.location.href = '../Login/Login.html';
         }
     </script>
