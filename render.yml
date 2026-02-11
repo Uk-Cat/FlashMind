@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: vividmind
+    env: static
+    buildCommand: ""
+    staticPublishPath: .
