@@ -12,6 +12,7 @@ async function handleCredentialResponse(response) {
         localStorage.setItem('vividmind_user', JSON.stringify(userObject));
         
         alert("Logged in!\nName: " + userObject.name + "\nEmail: " + userObject.email);
+        window.location.replace("https://vividmind.onrender.com");
         
         // Redirect to main page
         window.location.href = '../Save/index.html';
