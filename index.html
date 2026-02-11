@@ -1,8 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Homepage</title>
+        <meta charset="UTF-8">
+        <title>VividMind | Login</title>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+    </head>
     <body>
-        <h1>Welcome to the Homepage!</h1>
+        <h1>Welcome to VividMind</h1>
+        <div id="g_id_onload"
+         data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+    <script>
+        // 3. What happens after they log in
+        function handleCredentialResponse(response) {
+            // This 'credential' is a JWT token containing the user's name/email
+            console.log("Encoded JWT ID token: " + response.credential);
+            
+            // For now, let's just show an alert!
+            alert("You logged in! Check the console (F12) for your data.");
+        }
+    </script>
     </body>
 </html>
