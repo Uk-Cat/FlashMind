@@ -8,15 +8,28 @@
 </head>
 <body>
     <h1 id="Title">VividMind</h1>
-    <p>Please sign in:</p>
+    <p id="loginPrompt">Please sign in:</p>
     
     <div id="g_id_onload"
          data-client_id="305956197355-8eveggmhbv8q2bmvss31rtjtmabim8g3.apps.googleusercontent.com"
          data-callback="handleCredentialResponse">
     </div>
     <div class="g_id_signin" data-type="standard"></div>
+    
+    <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
 
     <script src="UseSupabase.js"></script>
     <script src="GoogleLogin.js"></script>
+    
+    <script>
+        // Show/hide logout button based on login state
+        window.addEventListener('load', function() {
+            const savedUser = localStorage.getItem('vividmind_user');
+            if (savedUser) {
+                document.getElementById('logoutBtn').style.display = 'block';
+                document.getElementById('loginPrompt').style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
