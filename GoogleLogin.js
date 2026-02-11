@@ -1,5 +1,3 @@
-import { saveUserToSupabase } from './UseSupabase.js';
-
 async function handleCredentialResponse(response) {
     console.log("JWT Token: " + response.credential);
     
