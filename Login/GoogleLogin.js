@@ -9,14 +9,12 @@ async function handleCredentialResponse(response) {
     if (result.success) {
         // Save user to localStorage to remember login
         localStorage.setItem('vividmind_user', JSON.stringify(userObject));
-        alert("Logged in!\nName: " + userObject.name + "\nEmail: " + userObject.email);
-        // Redirect to main page only after localStorage is set
-        setTimeout(() => {
-            window.location.href = '../index.html';
-        }, 200);
+        console.log("User logged in: " + userObject.name);
+        // Redirect to main page immediately after localStorage is set
+        window.location.href = '../index.html';
     } else {
         // Do not redirect if Supabase save fails
-        alert("Login successful but couldn't save to database: " + result.error.message);
+        alert("Login failed: " + result.error.message);
     }
 }
 
