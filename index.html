@@ -26,7 +26,7 @@
             const savedUser = localStorage.getItem('vividmind_user');
             if (savedUser) {
                 const user = JSON.parse(savedUser);
-                document.querySelector('h1').textContent = 'Welcome, ' + user.name + '!';
+                document.querySelector('h1').textContent = 'Welcome back , ' + user.name + '!';
             } else {
                 // Double-check - if not logged in, redirect
                 window.location.href = '../Login/Login.html';
