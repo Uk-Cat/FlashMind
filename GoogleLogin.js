@@ -4,21 +4,14 @@ async function handleCredentialResponse(response) {
     const userObject = parseJwt(response.credential);
     console.log("User data:", userObject);
     
-    // Prepare user data for Supabase
-    const userData = {
-        email: userObject.email,
-        name: userObject.name,
-        Google_Login: userObject.sub
-    };
-    
-    // Save to Supabase using the flexible function
-    const result = await saveUserToSupabase(userData);
+    // Save to Supabase
+    const result = await saveUserToSupabase(userObject);
     
     if (result.success) {
         alert("Logged in!\nName: " + userObject.name + "\nEmail: " + userObject.email);
         document.getElementById("Title").innerHTML = "Welcome, " + userObject.name + "!";
     } else {
-        alert("Login successful but couldn't save to database");
+        alert("Login successful but couldn't save to database: " + result.error.message);
     }
 }
 

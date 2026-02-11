@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VividMind Login</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1 id="Title">VividMind</h1>
+    <p>Please sign in:</p>
+    
+    <div id="g_id_onload"
+         data-client_id="305956197355-8eveggmhbv8q2bmvss31rtjtmabim8g3.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://newsivpyvfnkthnxiyxk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ld3NpdnB5dmZua3RobnhpeXhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4MjY2MzEsImV4cCI6MjA4NjQwMjYzMX0.ytNvFv1AaT_9-K3l2_LdynlvYs9OieLdqpQyd3PMCEU';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function handleCredentialResponse(response) {
+            console.log("JWT Token: " + response.credential);
+            
+            const userObject = parseJwt(response.credential);
+            console.log("User data:", userObject);
+            
+            // Check if user exists
+            const { data: existingUser, error: fetchError } = await supabaseClient
+                .from('VividMind')
+                .select('*')
+                .eq('Email', userObject.email)
+                .single();
+
+            let error = null;
+            
+            if (existingUser) {
+                // User exists, do nothing or update if needed
+                console.log('User already exists:', existingUser);
+            } else {
+                // User doesn't exist, insert new user
+                const { data, error: insertError } = await supabaseClient
+                    .from('VividMind')
+                    .insert({
+                        Email: userObject.email,
+                        Name: userObject.name,
+                        Google_ID: userObject.sub
+                    });
+                error = insertError;
+            }
+
+            if (error) {
+                console.error('Error saving to Supabase:', error);
+                alert("Login successful but couldn't save to database: " + error.message);
+            } else {
+                console.log('User processed successfully');
+                alert("Logged in!\nName: " + userObject.name + "\nEmail: " + userObject.email);
+                document.getElementById("Title").innerHTML = "Welcome, " + userObject.name + "!";
+            }
+        }
+
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+    </script>
+</body>
+</html>
