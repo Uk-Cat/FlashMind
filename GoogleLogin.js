@@ -5,7 +5,7 @@ function handleCredentialResponse(response) {
     console.log("User data:", userObject);
             
     alert("Logged in!\nName: " + userObject.name + "\nEmail: " + userObject.email);
-    document.getElementById("Title").innerHTML = "Welcome, " + userObject.name + "!";
+    document.getElementById("Title").innerHTML = "Welcome back, " + userObject.name + "!";
     }
 
 function parseJwt(token) {
