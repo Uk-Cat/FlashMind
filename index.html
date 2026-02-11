@@ -3,34 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VividMind Login</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>VividMind</title>
+    <script>
+        // Check if user is logged in
+        const savedUser = localStorage.getItem('vividmind_user');
+        
+        if (!savedUser) {
+            // Not logged in, redirect to login page
+            window.location.href = 'login.html';
+        }
+    </script>
 </head>
 <body>
-    <h1 id="Title">VividMind</h1>
-    <p id="loginPrompt">Please sign in:</p>
-    
-    <div id="g_id_onload"
-         data-client_id="305956197355-8eveggmhbv8q2bmvss31rtjtmabim8g3.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse">
-    </div>
-    <div class="g_id_signin" data-type="standard"></div>
-    
-    <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+    <h1>Welcome to VividMind!</h1>
+    <p>You are logged in.</p>
+    <button onclick="logout()">Logout</button>
 
-    <script src="UseSupabase.js"></script>
-    <script src="GoogleLogin.js"></script>
-    
     <script>
-        window.addEventListener('load', function() {
+        // Display user info
+        window.onload = function() {
             const savedUser = localStorage.getItem('vividmind_user');
             if (savedUser) {
-                document.getElementById('logoutBtn').style.display = 'block';
-                document.getElementById('loginPrompt').style.display = 'none';
+                const user = JSON.parse(savedUser);
+                document.querySelector('h1').textContent = 'Welcome, ' + user.name + '!';
+            } else {
+                // Double-check - if not logged in, redirect
+                window.location.href = 'login.html';
             }
-        });
+        }
+
+        function logout() {
+            localStorage.removeItem('vividmind_user');
+            window.location.href = 'login.html';
+        }
     </script>
 </body>
 </html>
